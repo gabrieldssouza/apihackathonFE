@@ -33,6 +33,30 @@ exports.getSosRequestById = async (req, res) => {
     }
 };
 
+exports.getSosRequestsByUserId = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const result = await pool.query('SELECT * FROM sos_requests WHERE user_id = $1', [userId]);
+        res.status(200).json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.getRecentSosRequests = async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT DISTINCT ON (user_id) *
+            FROM sos_requests
+            WHERE data_solicitacao >= NOW() - INTERVAL '1 week'
+            ORDER BY user_id, data_solicitacao DESC
+        `);
+        res.status(200).json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 exports.updateSosRequest = async (req, res) => {
     const { id } = req.params;
     const { user_id, latitude, longitude, status } = req.body;

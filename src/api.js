@@ -42,7 +42,9 @@ app.delete('/civil_defense/:id', civilDefenseController.deleteCivilDefense);
 // Rotas para SOS requests
 app.post('/sos_requests', sosRequestsController.createSosRequest);
 app.get('/sos_requests', sosRequestsController.getAllSosRequests);
-app.get('/sos_requests/:id', sosRequestsController.getSosRequestById);
+app.get('/sos_requests/user/:id', sosRequestsController.getSosRequestById);
+app.get('/sos_requests/user/:userId', sosRequestsController.getSosRequestsByUserId); // New route for user-specific SOS requests
+app.get('/sos_requests/recent', sosRequestsController.getRecentSosRequests); // New route for recent SOS requests
 app.put('/sos_requests/:id', sosRequestsController.updateSosRequest);
 app.delete('/sos_requests/:id', sosRequestsController.deleteSosRequest);
 
