@@ -57,7 +57,7 @@ app.delete('/weather_data/:id', weatherDataController.deleteWeatherData);
 // Rotas para alerts
 app.post('/alerts', alertsController.createAlert);
 app.get('/alerts', alertsController.getAllAlerts);
-app.get('/alerts/address', alertsController.getAlertsByAddress); // New route for alerts by address
+app.get('/alerts/address', alertsController.getAlertsByAddress);
 app.get('/alerts/:id', alertsController.getAlertById);
 app.put('/alerts/:id', alertsController.updateAlert);
 app.delete('/alerts/:id', alertsController.deleteAlert);
