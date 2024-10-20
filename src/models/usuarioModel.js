@@ -24,13 +24,13 @@ async function deleteUsuario(id) {
     await pool.query('DELETE FROM users WHERE id = $1', [id]);
 }
 
-async function registrarUsuario(nome, telefone, cep, numero, cpf) {
+async function registrarUsuario(nome, telefone, cep, numero, bairro, rua, cpf) {
     const cepData = await pegarCep(cep);
-    const { logradouro: rua, bairro, localidade: cidade, uf: estado } = cepData;
+    const { localidade: cidade, uf: estado } = cepData;
 
     const result = await pool.query(
-        'INSERT INTO users (nome, telefone, rua, numero, bairro, cidade, estado, cpf) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-        [nome, telefone, rua, numero, bairro, cidade, estado, cpf]
+        'INSERT INTO users (nome, telefone, rua, numero, bairro, cidade, estado, cpf, cep) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+        [nome, telefone, rua, numero, bairro, cidade, estado, cpf, cep]
     );
     return result.rows[0];
 }

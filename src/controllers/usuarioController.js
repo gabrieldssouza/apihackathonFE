@@ -3,9 +3,9 @@ const axios = require('axios');
 
 exports.registrar = async (req, res) => {
     try {
-        const { nome, telefone, cep, numero, cpf } = req.body;
+        const { nome, telefone, cep, numero, cpf, bairro, cidade, rua } = req.body;
 
-        const result = await usuarioModel.registrarUsuario(nome, telefone, cep, numero, cpf);
+        const result = await usuarioModel.registrarUsuario(nome, telefone, cep, numero, bairro, rua, cpf);
         res.status(200).send(result);
     } catch (err) {
         res.status(500).send('Erro ao registrar usuário');
@@ -73,4 +73,4 @@ exports.pegarCep = async (req, res) => {
         res.status(500).send('Erro ao buscar CEP');
         console.log(err);
     }
-}
+};

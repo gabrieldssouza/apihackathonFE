@@ -7,11 +7,20 @@ const civilDefenseController = require('./controllers/civilDefenseController');
 const sosRequestsController = require('./controllers/sosRequestsController');
 const weatherDataController = require('./controllers/weatherDataController');
 const alertsController = require('./controllers/alertsController');
+const schedule = require('node-schedule');
+const clima = require('./autoruns/clima');
+
 require('dotenv').config();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Start autoruns
+// Schedule the job to run at 6 AM and 6 PM every day
+schedule.scheduleJob('0 6,18 * * *', () => {
+    clima.verificarClima();
+});
 
 app.get('/', async (_, res) => {
     const sql = neon(`${process.env.DATABASE_URL}`);
