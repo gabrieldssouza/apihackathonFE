@@ -48,7 +48,7 @@ exports.verificarClima = async function() {
                     body: JSON.stringify({
                         cidade: cidadeNome,
                         tipo_alerta: 'chuva',
-                        mensagem: `Previsão de chuva forte para os próximos dias`,
+                        mensagem: `Previsão de chuva forte para os próximos 3 dias com precipitação total de ${totalPrecipitation}mm`,
                         enviado_por: 'previsao'
                     })
                 });

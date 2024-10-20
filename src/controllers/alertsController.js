@@ -39,25 +39,21 @@ exports.getAlertsByAddress = async (req, res) => {
     let query = 'SELECT * FROM alerts';
     const params = [];
 
-    if (cidade || bairro) {
-        query += ' WHERE';
-        if (cidade) {
-            query += ' cidade = $1';
-            params.push(cidade);
-        }
+    if (cidade) {
+        query += ' WHERE cidade = $1';
+        params.push(cidade);
         if (bairro) {
-            if (params.length > 0) {
-                query += ' AND';
-            }
-            query += ' bairro = $2';
+            query += ' AND (bairro IS NULL OR bairro = $2)';
             params.push(bairro);
         }
     }
+    query += ' ORDER BY data_envio DESC;';
 
     try {
         const result = await pool.query(query, params);
         res.json(result.rows);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: 'Erro ao listar alertas' });
     }
 };
