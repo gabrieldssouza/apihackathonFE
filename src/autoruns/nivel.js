@@ -20,8 +20,6 @@ const coletarDados = async (codigo, inicio, fim) => {
         .replace('INICIO', inicio)
         .replace('FIM', fim);
 
-    console.log(url);
-
     const resposta = await axios.get(url);
     const valorJson = await parseStringPromise(resposta.data);
     const resultados = find(valorJson, '//DadosHidrometereologicos');
@@ -31,7 +29,6 @@ const coletarDados = async (codigo, inicio, fim) => {
             const nivel = resultado.Nivel[0];
             const vazao = resultado.Vazao[0];
             const chuva = resultado.Chuva[0];
-            console.log(`Data: ${dataHora} - Nível: ${nivel} - Vazão: ${vazao} - Chuva: ${chuva}`);
             return {
                 dataHora,
                 nivel,
