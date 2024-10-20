@@ -52,7 +52,7 @@ exports.interpretMessage = async (message) => {
                 }
 
                 if (tipoAlerta) {
-                    await fetch('http://localhost:3000/api/alerts', {
+                    const result = await fetch('http://localhost:3000/alerts', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -61,7 +61,8 @@ exports.interpretMessage = async (message) => {
                             cidade: cidade,
                             tipo_alerta: tipoAlerta,
                             enviado_por: 'bot',
-                            data_envio: today
+                            data_envio: today,
+                            mensagem: text // Add the message text here
                         })
                     });
                     console.log(`Alerta de ${tipoAlerta} enviado para ${cidade}`);
