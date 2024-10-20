@@ -9,7 +9,7 @@ const weatherDataController = require('./controllers/weatherDataController');
 const alertsController = require('./controllers/alertsController');
 const schedule = require('node-schedule');
 const clima = require('./autoruns/clima');
-const message = require('./autoruns/nivel');
+const nivel = require('./autoruns/nivel');
 
 require('dotenv').config();
 
@@ -21,6 +21,13 @@ app.use(express.urlencoded({ extended: true }));
 schedule.scheduleJob('0 6,18 * * *', () => {
     clima.verificarClima();
 });
+
+(async function checkRiverLevelPeriodically() {
+    while (true) {
+        nivel.checkRiverLevel();
+        await new Promise(resolve => setTimeout(resolve, 1800000)); // 1800000 ms = 30 minutes
+    }
+})().catch(err => console.error(err));
 
 app.get('/', async (_, res) => {
     const sql = neon(`${process.env.DATABASE_URL}`);
@@ -73,12 +80,4 @@ app.delete('/alerts/:id', alertsController.deleteAlert);
 
 module.exports = app;
 
-const TelegramBot = require('node-telegram-bot-api');
-const token = '7496633391:AAHeXypmvpk5LtwOe5rPUGztr7P-deBt4iI';
-const bot = new TelegramBot(token, { polling: true });
-console.log("Telegram bot is up and running.");
-
-bot.on('message', (msg) => {
-    const result = message.interpretMessage(msg);
-});
 
