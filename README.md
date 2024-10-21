@@ -12,3 +12,4 @@
 
 Link Figma: https://www.figma.com/design/mITHbQCB4bJCL7QNQZST90/Untitled?node-id=0-1&node-type=canvas&t=78HJUKWpHqnTINtx-0
 Link Front-End: https://github.com/amandita005/hackaton
+![378258663-e30307ae-ca11-4b28-b467-5947b7f3cf9a](https://github.com/user-attachments/assets/895d0a5e-d645-4c65-87dc-1b3a93f710b9)
