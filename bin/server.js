@@ -9,7 +9,7 @@ const io = new Server(server);
 
 setIoInstance(io); // Set the io instance for use in emitToUser
 
-server.listen(3001, () => {
+server.listen(3001,'0.0.0.0', () => {
     console.log('Servidor online na porta 3001');
 });
 

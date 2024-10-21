@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const axios = require('axios').default;
+const fetch = require('node-fetch');
 const { parseStringPromise } = require('xml2js');
 const { find } = require('xml2js-xpath');
 const pool = new Pool({ connectionString: "postgresql://hackaton_owner:jlcp2VWgmy4O@ep-divine-bread-a5g0rfdz.us-east-2.aws.neon.tech/hackaton?sslmode=require" });
@@ -20,8 +20,9 @@ const coletarDados = async (codigo, inicio, fim) => {
         .replace('INICIO', inicio)
         .replace('FIM', fim);
 
-    const resposta = await axios.get(url);
-    const valorJson = await parseStringPromise(resposta.data);
+    const resposta = await fetch(url);
+    const data = await resposta.text();
+    const valorJson = await parseStringPromise(data);
     const resultados = find(valorJson, '//DadosHidrometereologicos');
     if (resultados) {
         leituras = resultados.map(resultado => {
@@ -80,7 +81,7 @@ exports.checkRiverLevel = async () => {
             alertType = 'nível do rio alto';
         }
 
-        if (increaseLastHour > 0) {
+        if (increaseLastHour > 40) {
             alertType = alertType ? `${alertType} e nível subindo rápido` : 'nível subindo rápido';
         }
 
@@ -95,12 +96,18 @@ exports.checkRiverLevel = async () => {
             `, [cidade, today, alertType]);
 
             if (alertExists.rows.length === 0) {
-                const result = await axios.post('http://localhost:3000/alerts', {
-                    cidade: cidade,
-                    tipo_alerta: alertType,
-                    enviado_por: 'bot',
-                    data_envio: today,
-                    mensagem: `Alerta: ${alertType} - Nível atual: ${currentLevel}m`
+                const result = await fetch('http://localhost:3001/alerts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        cidade: cidade,
+                        tipo_alerta: alertType,
+                        enviado_por: 'bot',
+                        data_envio: today,
+                        mensagem: `Alerta: ${alertType} - Nível atual: ${currentLevel}m`
+                    })
                 });
                 console.log(`Alerta de ${alertType} enviado para ${cidade}`);
             }

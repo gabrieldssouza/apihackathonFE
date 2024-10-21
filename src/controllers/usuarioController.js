@@ -58,6 +58,7 @@ exports.pegarCep = async (req, res) => {
         const { cep } = req.body;
         const result = await usuarioModel.pegarCep(cep);
         const ibgeCode = result.ibge;
+        console.log(result);
 
         const response = await axios.get(`https://api.brasilaberto.com/v1/districts-by-ibge-code/${ibgeCode}`, {
             headers: {
@@ -67,6 +68,8 @@ exports.pegarCep = async (req, res) => {
 
         res.status(200).send({
             ibge: ibgeCode,
+            cidade: result.localidade,
+            estado: result.estado,
             bairros: response.data
         });
     } catch (err) {
@@ -74,3 +77,18 @@ exports.pegarCep = async (req, res) => {
         console.log(err);
     }
 };
+
+exports.login = async (req, res) => {
+    try {
+        const { cpf, telefone } = req.body;
+        const result = await usuarioModel.login(cpf, telefone);
+        if (!result) {
+            res.status(404).send('Usuário não encontrado');
+            return;
+        }
+        res.status(200).send(result);
+    } catch (err) {
+        res.status(500).send('Erro ao fazer login');
+        console.log(err);
+    }
+}

@@ -47,6 +47,7 @@ app.get('/usuarios', usuarioController.getAllUsuarios);
 app.get('/usuarios/:id', usuarioController.getUsuarioById);
 app.put('/usuarios/:id', usuarioController.updateUsuario);
 app.delete('/usuarios/:id', usuarioController.deleteUsuario);
+app.post('/login', usuarioController.login);
 
 // Rotas para civil defense
 app.post('/civil_defense', civilDefenseController.createCivilDefense);

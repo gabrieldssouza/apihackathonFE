@@ -34,6 +34,10 @@ async function registrarUsuario(nome, telefone, cep, numero, bairro, rua, cpf) {
     );
     return result.rows[0];
 }
+async function login(cpf, telefone){
+    const result = await pool.query('SELECT * FROM users WHERE cpf = $1 AND telefone = $2', [cpf, telefone]);
+    return result.rows[0];
+}
 
 async function pegarCep(cep) {
     const axios = require('axios');
@@ -47,5 +51,6 @@ module.exports = {
     updateUsuario,
     deleteUsuario,
     registrarUsuario,
-    pegarCep
+    pegarCep,
+    login
 };
