@@ -6,7 +6,7 @@
 ## Ficou assim o layout:
 
 <div align="center">
-<img src="![image](https://github.com/user-attachments/assets/e30307ae-ca11-4b28-b467-5947b7f3cf9a)
+<img src="https://github.com/user-attachments/assets/e30307ae-ca11-4b28-b467-5947b7f3cf9a
 " width="700px" />
 </div>
 
